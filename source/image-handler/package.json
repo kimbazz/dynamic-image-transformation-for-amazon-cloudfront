@@ -10,10 +10,12 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "rimraf ./dist && tsc",
     "clean": "rm -rf node_modules/ dist/ coverage/",
     "pretest": "npm run clean && npm ci",
     "test": "jest --coverage --silent",
-    "bump-version": "npm version $(cat ../../VERSION.txt) --allow-same-version"
+    "bump-version": "npm version $(cat ../../VERSION.txt) --allow-same-version",
+    "start": "nodemon --watch src --exec \"npm run build && node dist/image-handler/server.js\""
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.835.0",
@@ -23,6 +25,8 @@
     "color": "4.2.3",
     "color-name": "1.1.4",
     "dayjs": "1.11.10",
+    "nodemon": "^3.1.10",
+    "rimraf": "^6.0.1",
     "sharp": "^0.34.2"
   },
   "devDependencies": {
