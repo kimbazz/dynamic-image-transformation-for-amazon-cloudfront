@@ -24,6 +24,7 @@ import {
   S3HeadObjectResult,
   RequestTypes,
   StatusCodes,
+  LogJSON,
 } from "./lib";
 import { SecretProvider } from "./secret-provider";
 // eslint-disable-next-line import/no-unresolved
@@ -50,8 +51,8 @@ export async function handler(
   const { ENABLE_S3_OBJECT_LAMBDA } = process.env;
 
   const normalizedEvent = normalizeEvent(event, ENABLE_S3_OBJECT_LAMBDA);
-  console.info(`Path: ${normalizedEvent.path}`);
-  console.info(`QueryParams: ${JSON.stringify(normalizedEvent.queryStringParameters)}`);
+  LogJSON('info', 'Request path', { path: normalizedEvent.path });
+  LogJSON('info', 'Query parameters', { queryParams: normalizedEvent.queryStringParameters });
 
   const response = handleRequest(normalizedEvent);
   // If deployment is set to use an API Gateway origin
@@ -68,7 +69,7 @@ export async function handler(
 
   // Check if getObjectContext is not in event, indicating a HeadObject request
   if (!("getObjectContext" in event)) {
-    console.info(`Invalid S3GetObjectEvent, assuming HeadObject request. Status: ${finalResponse.statusCode}`);
+    LogJSON('info', 'Invalid S3GetObjectEvent, assuming HeadObject request', { statusCode: finalResponse.statusCode });
 
     return {
       statusCode: finalResponse.statusCode,
@@ -81,7 +82,7 @@ export async function handler(
   try {
     await s3Client.send(new WriteGetObjectResponseCommand(params));
   } catch (error) {
-    console.error("Error occurred while writing the response to S3 Object Lambda.", error);
+    LogJSON('error', 'Error occurred while writing the response to S3 Object Lambda', undefined, error);
     const errorParams = buildErrorResponseParams(
       getObjectEvent,
       new ImageHandlerError(
@@ -107,7 +108,7 @@ async function handleRequest(event: ImageHandlerEvent): Promise<ImageHandlerExec
   const isAlb = event.requestContext && Object.prototype.hasOwnProperty.call(event.requestContext, "elb");
   try {
     const imageRequestInfo = await imageRequest.setup(event);
-    console.info(imageRequestInfo);
+    LogJSON('info', 'Image request info', imageRequestInfo);
 
     let processedRequest: Buffer | string = await imageHandler.process(imageRequestInfo);
 
@@ -150,7 +151,7 @@ async function handleRequest(event: ImageHandlerEvent): Promise<ImageHandlerExec
       body: processedRequest,
     };
   } catch (error) {
-    console.error(error);
+    LogJSON('error', 'Error processing image request', undefined, error);
 
     // Default fallback image
     const { ENABLE_DEFAULT_FALLBACK_IMAGE, DEFAULT_FALLBACK_IMAGE_BUCKET, DEFAULT_FALLBACK_IMAGE_KEY } = process.env;
@@ -162,7 +163,7 @@ async function handleRequest(event: ImageHandlerEvent): Promise<ImageHandlerExec
       try {
         return await handleDefaultFallbackImage(imageRequest, event, isAlb, error);
       } catch (error) {
-        console.error("Error occurred while getting the default fallback image.", error);
+        LogJSON('error', 'Error occurred while getting the default fallback image', undefined, error);
       }
     }
 

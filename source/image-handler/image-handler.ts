@@ -23,6 +23,7 @@ import {
   ImageRequestInfo,
   RekognitionCompatibleImage,
   StatusCodes,
+  LogJSON,
 } from "./lib";
 import { getAllowedSourceBuckets } from "./image-request";
 import { SHARP_EDIT_ALLOWLIST_ARRAY } from "./lib/constants";
@@ -769,7 +770,7 @@ export class ImageHandler {
   }
 
   private handleError(error: Error, defaultError: Error, errorMappings: ErrorMapping[] = []): never {
-    console.error(error);
+    LogJSON('error', 'Error in image handler', undefined, error);
 
     // If it's already an ImageHandlerError, rethrow it
     if (error instanceof ImageHandlerError) {
