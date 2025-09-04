@@ -13,40 +13,24 @@ services:
       context: ..
       dockerfile: image-handler/Dockerfile
     environment:
+      AWS_ACCESS_KEY_ID: "ASIAQUWE4DWF6T3MOJGS"
+      AWS_SECRET_ACCESS_KEY: "7yKsuQyqJOdv7fvl7sUAJjSWTuUbwpxgcXYhdYm0"
+      AWS_SESSION_TOKEN: "IQoJb3JpZ2luX2VjEPD//////////wEaDmFwLXNvdXRoZWFzdC0xIkYwRAIgMDMHVKWsMBnMvtWpgLhBpjfIq8QtCXmP8Ifjft+L1vECIH0cK0eJ5XrH/+ZHWwnz7id9T9lvj6CdULhsW0srp95PKvYCCFkQAhoMMDQ0NDM2Mjk5MTQ3IgyV/IUufdRyvYZbDg0q0wIKtEbo8Oq+8zlmVchL8Vc3tpabdqM4KTckohuvtzLAJLX49hmsZFEUJZDbT0uzCoHJgMUDg1yDn2IAG6MnwSFeBnD7trQsril2r0riShwW2jLOwxTuuZIY2LJkRGMWGPHtqlAAfXo3lH9pDL7QEWPAOxjLFApbwfFxy/2kUdp5u9DiCYMDWt1SQ2nI9Ns6SLa33JSANanuhAAtKjZe1cXja/U3Xy4VfvpxPw5+y1oHSZPruoJIeA3mMPPqvQ61+ca5+zd3Vt7UhARJEz4ByxVk0gm8Bs54hbU6ZJYeyySgHhCiC/CAgobvQoNg3++J6DraCQQTTSSCCulVlIFTwncEL2YCAdhZW6utoM26yJ/Q+23AKjuVBOKASNyAwpjxGS5wSS5XYNnswl5hMQAQuwNnvglIP5pbB2dF4LoPNpSYP7QQw1vYtbMiAploWA7nrqEdM+Mwko3lxQY6qAEt+vq8bPcln95bYvwLalUFPUPF9vlWRPDAYdYjK1k60VSo4JVvKyiTrtkUdiazXRIKX+XJv2QYWp4Cgi6zz0zCgLDxkmwCjgm7rysMOg6CH0x9MBx0MM/VEXOR1qg2lvmD/v4xqn/vWzGZLRrgVOegx8Xz1ypVs0zHaraXYd3RBnQZ/47I3spkg/74CdBPJdn/3frk6NbDS56VeFS7TkbmvP1CZad0csM="
+      AWS_REGION: "ap-southeast-1"
       NODE_ENV: production
+      AUTO_WEBP: No
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+      CORS_ENABLED: Yes
+      CORS_ORIGIN: "*"
+      DEFAULT_FALLBACK_IMAGE_BUCKET:
+      DEFAULT_FALLBACK_IMAGE_KEY:
+      ENABLE_DEFAULT_FALLBACK_IMAGE: No
+      ENABLE_SIGNATURE: No
+      REWRITE_MATCH_PATTERN: ""
+      REWRITE_SUBSTITUTION: ""
+      SECRETS_MANAGER: ""
+      SECRET_KEY: ""
+      SOURCE_BUCKETS: "rrstg-content"
     ports:
       - 47890:47890
-
-# The commented out section below is an example of how to define a PostgreSQL
-# database that your application can use. `depends_on` tells Docker Compose to
-# start the database before your application. The `db-data` volume persists the
-# database data between container restarts. The `db-password` secret is used
-# to set the database password. You must create `db/password.txt` and add
-# a password of your choosing to it before running `docker-compose up`.
-#     depends_on:
-#       db:
-#         condition: service_healthy
-#   db:
-#     image: postgres
-#     restart: always
-#     user: postgres
-#     secrets:
-#       - db-password
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
-#     environment:
-#       - POSTGRES_DB=example
-#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-#     expose:
-#       - 5432
-#     healthcheck:
-#       test: [ "CMD", "pg_isready" ]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 5
-# volumes:
-#   db-data:
-# secrets:
-#   db-password:
-#     file: db/password.txt
 
