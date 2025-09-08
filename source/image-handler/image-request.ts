@@ -346,7 +346,7 @@ export class ImageRequest {
           .replace(/\/\d+x\d+(?=\/)/g, "")
           .replace(/filters:watermark\(.*\)/u, "")
           .replace(/filters:[^/]+/g, "")
-          .replace(/\/fit-in(?=\/)/g, "")
+          .replace(/\/?fit-in\/?/g, "")
           .replace(new RegExp("s3:" + bucket + "/"), "")
           .replace(/^\/+/g, "")
           .replace(/^\/+/, "")

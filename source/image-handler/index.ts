@@ -51,8 +51,6 @@ export async function handler(
   const { ENABLE_S3_OBJECT_LAMBDA } = process.env;
 
   const normalizedEvent = normalizeEvent(event, ENABLE_S3_OBJECT_LAMBDA);
-  LogJSON('info', 'Request path', { path: normalizedEvent.path });
-  LogJSON('info', 'Query parameters', { queryParams: normalizedEvent.queryStringParameters });
 
   const response = handleRequest(normalizedEvent);
   // If deployment is set to use an API Gateway origin
@@ -108,7 +106,6 @@ async function handleRequest(event: ImageHandlerEvent): Promise<ImageHandlerExec
   const isAlb = event.requestContext && Object.prototype.hasOwnProperty.call(event.requestContext, "elb");
   try {
     const imageRequestInfo = await imageRequest.setup(event);
-    LogJSON('info', 'Image request info', imageRequestInfo);
 
     let processedRequest: Buffer | string = await imageHandler.process(imageRequestInfo);
 
