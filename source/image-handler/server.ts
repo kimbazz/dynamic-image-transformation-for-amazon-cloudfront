@@ -42,12 +42,6 @@ const server = http.createServer(async (req, res) => {
 			return res.end("ok");
 		}
 
-		if (req.method !== "GET") {
-			res.statusCode = 405;
-			res.setHeader("Allow", "GET");
-			return res.end("Method Not Allowed");
-		}
-
 		const event = toEvent(req);
 		const result = (await lambdaHandler(event)) as {
 			statusCode: number;
